@@ -1,6 +1,11 @@
 import styled from "@emotion/styled";
 import { useEffect } from "react";
-import axios from "axios";
+import {
+  useForm,
+  Controller,
+  FieldValues,
+  SubmitHandler,
+} from "react-hook-form";
 
 const StyledRegistrationFrom = styled("form", {
   label: "StyledRegistrationFrom",
@@ -35,6 +40,12 @@ const StyledRegistrationFrom = styled("form", {
       border: 1px solid #dedede;
       outline: none;
     }
+
+    .error-message {
+      display: block;
+      color: red;
+      font-size: 12px;
+    }
   }
 
   .submit-btn {
@@ -53,7 +64,19 @@ const StyledRegistrationFrom = styled("form", {
 `;
 
 const RegistrationForm = () => {
-  const onSubmit = async () => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+  } = useForm<FieldValues>();
+
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    console.log(data);
+  };
+
+  const password = getValues("password");
+  /* const onSubmit = async () => {
     await axios
       .post("http://localhost:5000/api/user/registration", {
         name: "Petr",
@@ -65,35 +88,149 @@ const RegistrationForm = () => {
       })
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
-  };
+  }; */
   useEffect(() => {
-    onSubmit();
+    /* onSubmit(); */
   }, []);
   return (
-    <StyledRegistrationFrom>
+    <StyledRegistrationFrom onSubmit={handleSubmit(onSubmit)}>
       <div className="input-wrapper">
         <span className="input-title">Ім'я</span>
-        <input className="input-field" placeholder="Ім'я" />
+        <Controller
+          name="name"
+          control={control}
+          rules={{
+            required: "Name is required",
+            maxLength: {
+              value: 50,
+              message: "Name should not exceed 50 characters",
+            },
+          }}
+          render={({ field }) => (
+            <input {...field} className="input-field" placeholder="Ім'я" />
+          )}
+        />
+        {errors.name && (
+          <span className="error-message">{errors.name.message as string}</span>
+        )}
+        {/* <input className="input-field" placeholder="Ім'я" /> */}
       </div>
       <div className="input-wrapper">
         <span className="input-title">Прізвище</span>
-        <input className="input-field" placeholder="Прізвище" />
+        <Controller
+          name="surname"
+          control={control}
+          rules={{
+            required: "Surname is required",
+            maxLength: {
+              value: 50,
+              message: "Surname should not exceed 50 characters",
+            },
+          }}
+          render={({ field }) => (
+            <input {...field} className="input-field" placeholder="Прізвище" />
+          )}
+        />
+        {errors.surname && (
+          <span className="error-message">
+            {errors.surname.message as string}
+          </span>
+        )}
       </div>
       <div className="input-wrapper">
         <span className="input-title">Email</span>
-        <input className="input-field" placeholder="email@example.com" />
+        <Controller
+          name="email"
+          control={control}
+          rules={{
+            required: "Email is required",
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: "Invalid email address",
+            },
+          }}
+          render={({ field }) => (
+            <input
+              {...field}
+              className="input-field"
+              placeholder="email@example.com"
+            />
+          )}
+        />
+        {errors.email && (
+          <span className="error-message">
+            {errors.email.message as string}
+          </span>
+        )}
       </div>
       <div className="input-wrapper">
         <span className="input-title">Номер телефону</span>
-        <input className="input-field" placeholder="Номер телефону" />
+        <Controller
+          name="phoneNumber"
+          control={control}
+          rules={{
+            required: "Phone number is required",
+            pattern: {
+              value: /^\+[0-9]{1,3}-?[0-9]{6,14}$/,
+              message: "Invalid phone number format",
+            },
+          }}
+          render={({ field }) => (
+            <input
+              {...field}
+              className="input-field"
+              placeholder="Номер телефону"
+            />
+          )}
+        />
+        {errors.phoneNumber && (
+          <span className="error-message">
+            {errors.phoneNumber.message as string}
+          </span>
+        )}
       </div>
       <div className="input-wrapper">
         <span className="input-title">Пароль</span>
-        <input className="input-field" placeholder="Введіть пароль" />
+        <Controller
+          name="password"
+          control={control}
+          rules={{
+            required: "Password is required",
+            minLength: {
+              value: 8,
+              message: "Password must be at least 8 characters long",
+            },
+          }}
+          render={({ field }) => (
+            <input
+              {...field}
+              className="input-field"
+              placeholder="Введіть пароль"
+            />
+          )}
+        />
+        {errors.password && <span className="error-message">{errors.password.message as string}</span>}
       </div>
       <div className="input-wrapper">
         <span className="input-title">Підтвердження паролю</span>
-        <input className="input-field" placeholder="Підтвердіть пароль" />
+        <Controller
+          name="confirmPassword"
+          control={control}
+          rules={{
+            required: "Please confirm your password",
+            validate: (value) => value === password || "Passwords do not match",
+          }}
+          render={({ field }) => (
+            <input
+              {...field}
+              className="input-field"
+              placeholder="Підтвердіть пароль"
+            />
+          )}
+        />
+        {errors.confirmPassword && (
+          <span className="error-message">{errors.confirmPassword.message as string}</span>
+        )}
       </div>
       <input type="submit" value="Зареєструватися" className="submit-btn" />
     </StyledRegistrationFrom>
