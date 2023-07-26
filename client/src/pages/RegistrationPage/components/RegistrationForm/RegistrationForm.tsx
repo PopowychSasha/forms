@@ -1,4 +1,6 @@
 import styled from "@emotion/styled";
+import { useEffect } from "react";
+import axios from "axios";
 
 const StyledRegistrationFrom = styled("form", {
   label: "StyledRegistrationFrom",
@@ -51,6 +53,22 @@ const StyledRegistrationFrom = styled("form", {
 `;
 
 const RegistrationForm = () => {
+  const onSubmit = async () => {
+    await axios
+      .post("http://localhost:5000/api/user/registration", {
+        name: "Petr",
+        surname: "Popovych",
+        email: "sashapopovych1@gmail.com",
+        phoneNumber: "+380969943318",
+        password: "11111",
+        confirmPassword: "11111",
+      })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+  useEffect(() => {
+    onSubmit();
+  }, []);
   return (
     <StyledRegistrationFrom>
       <div className="input-wrapper">
