@@ -1,7 +1,15 @@
 import User from "../model/user.js";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import { validationResult } from "express-validator";
 
 export const registration = async (req, res, next) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   const { name, surname, email, phoneNumber, password, confirmPassword } =
     req.body;
 
@@ -19,7 +27,7 @@ export const registration = async (req, res, next) => {
     surname,
     email,
     phoneNumber,
-    password,
+    password: await bcrypt.hash(password, 12),
   });
 
   await newUser.save();
@@ -30,9 +38,12 @@ export const login = async (req, res, next) => {
   const { email, password } = req.body;
   let user = undefined;
   try {
-    user = await User.findOne({ email, password });
+    user = await User.findOne({ email });
 
     if (!user) {
+      throw new Error("логін або пароль неправильний");
+    }
+    if (!(await bcrypt.compare(password, user.password))) {
       throw new Error("логін або пароль неправильний");
     }
   } catch (err) {

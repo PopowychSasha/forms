@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styled from "@emotion/styled";
 import { userActions } from "../../../../redux/user";
+import { HOME } from "../../../../components/App/AppPageUrl";
 
 const StyledLoginFrom = styled("form", {
   label: "StyledRegistrationFrom",
@@ -72,7 +73,7 @@ const LoginForm = () => {
       .then((res) => {
         localStorage.setItem("token", res.data.token);
         dispatch(userActions.setUserData(res.data));
-        navigate("/home");
+        navigate(HOME);
       })
       .catch((err) => {
         alert(err.response.data.message);

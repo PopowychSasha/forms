@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import styled from "@emotion/styled";
+import { REGISTRATION } from "../../../../components/App/AppPageUrl";
 
 const StyledNotRegistered = styled("div", {
   label: "StyledNotRegistered",
@@ -29,7 +30,7 @@ const NotRegistered = () => {
   return (
     <StyledNotRegistered>
       <div className="not-registered">Не зареєстровані?</div>
-      <NavLink className="link" to="/registration">
+      <NavLink className="link" to={REGISTRATION}>
         Авторизація
       </NavLink>
     </StyledNotRegistered>

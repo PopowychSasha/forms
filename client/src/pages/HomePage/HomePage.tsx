@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styled from "@emotion/styled";
 import { userActions } from "../../redux/user";
+import { LOGIN } from "../../components/App/AppPageUrl";
 
 const StyledHomePage = styled("div", {
   label: "StyledHomePage",
@@ -49,6 +50,7 @@ const StyledHomePage = styled("div", {
     font-weight: 400;
   }
 `;
+
 const HomePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -67,7 +69,7 @@ const HomePage = () => {
   const logoutHandler = () => {
     localStorage.removeItem("token");
     dispatch(userActions.cleanUpUserData());
-    navigate("/login");
+    navigate(LOGIN);
   };
 
   const fetchUserInfo = async () => {
@@ -82,14 +84,14 @@ const HomePage = () => {
         dispatch(userActions.setUserData(res.data));
       })
       .catch((err) => {
-        console.log(err);
+        alert(err.response.data.message);
       });
   };
 
   useEffect(() => {
     fetchUserInfo();
   }, []);
-  
+
   return (
     <StyledHomePage>
       <div className="title">Інформація про користвувача</div>

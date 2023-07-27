@@ -95,7 +95,6 @@ const RegistrationForm = () => {
       });
   };
 
-  const password = getValues("password");
 
   return (
     <StyledRegistrationFrom onSubmit={handleSubmit(onSubmit)}>
@@ -235,7 +234,7 @@ const RegistrationForm = () => {
           rules={{
             required: "Please confirm your password",
             validate: (value) => {
-              if (value !== password) {
+              if (value !== getValues("password")) {
                 return "Passwords do not match";
               }
             },
