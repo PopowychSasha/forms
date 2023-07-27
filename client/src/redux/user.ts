@@ -1,31 +1,31 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit'
 
 export const userSlice = createSlice({
-  name: "files",
+  name: 'files',
   initialState: {
-    id: "",
-    name: "",
-    email: "",
-    surname: "",
-    phoneNumber: "",
-    token: localStorage.getItem("token"),
+    id: '',
+    name: '',
+    email: '',
+    surname: '',
+    phoneNumber: '',
+    token: localStorage.getItem('token'),
   },
   reducers: {
     setUserData: (_, action) => {
-      return action.payload;
+      return action.payload
     },
 
     cleanUpUserData: () => {
       return {
-        id: "",
-        name: "",
-        email: "",
-        surname: "",
-        phoneNumber: "",
-        token: "",
-      };
+        id: '',
+        name: '',
+        email: '',
+        surname: '',
+        phoneNumber: '',
+        token: '',
+      }
     },
   },
-});
+})
 
-export const userActions = userSlice.actions;
+export const userActions = userSlice.actions

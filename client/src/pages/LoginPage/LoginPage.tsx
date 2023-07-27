@@ -1,10 +1,10 @@
-import styled from "@emotion/styled";
-import LoginForm from "./components/LoginForm/LoginForm";
-import NotRegistered from "./components/NotRegistered/NotRegistered";
+import styled from '@emotion/styled'
+import LoginForm from './components/LoginForm/LoginForm'
+import NotRegistered from './components/NotRegistered/NotRegistered'
 
-const StyledLoginPage = styled("div", {
-  label: "StyledLoginPage",
-  target: "styled-login-page",
+const StyledLoginPage = styled('div', {
+  label: 'StyledLoginPage',
+  target: 'styled-login-page',
 })`
   padding: 84px 0px 98px;
 
@@ -13,7 +13,7 @@ const StyledLoginPage = styled("div", {
     font-family: Manrope;
     font-size: 24px;
   }
-`;
+`
 
 const LoginPage = () => {
   return (
@@ -22,7 +22,7 @@ const LoginPage = () => {
       <LoginForm />
       <NotRegistered />
     </StyledLoginPage>
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default LoginPage

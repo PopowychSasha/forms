@@ -1,14 +1,14 @@
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import styled from "@emotion/styled";
-import { userActions } from "../../redux/user";
-import { LOGIN } from "../../components/App/AppPageUrl";
+import { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import styled from '@emotion/styled'
+import { userActions } from '../../redux/user'
+import { LOGIN } from '../../components/App/AppPageUrl'
 
-const StyledHomePage = styled("div", {
-  label: "StyledHomePage",
-  target: "styled-home-page",
+const StyledHomePage = styled('div', {
+  label: 'StyledHomePage',
+  target: 'styled-home-page',
 })`
   padding: 84px 0px 98px;
 
@@ -49,48 +49,48 @@ const StyledHomePage = styled("div", {
     font-size: 13.333px;
     font-weight: 400;
   }
-`;
+`
 
 const HomePage = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const { name, surname, email, phoneNumber, token } = useSelector(
     (store: {
       userReducer: {
-        name: string;
-        surname: string;
-        email: string;
-        phoneNumber: string;
-        token: string;
-      };
-    }) => store.userReducer
-  );
+        name: string
+        surname: string
+        email: string
+        phoneNumber: string
+        token: string
+      }
+    }) => store.userReducer,
+  )
 
   const logoutHandler = () => {
-    localStorage.removeItem("token");
-    dispatch(userActions.cleanUpUserData());
-    navigate(LOGIN);
-  };
+    localStorage.removeItem('token')
+    dispatch(userActions.cleanUpUserData())
+    navigate(LOGIN)
+  }
 
   const fetchUserInfo = async () => {
     await axios
-      .get("http://localhost:5000/api/user", {
+      .get('http://localhost:5000/api/user', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
-        localStorage.setItem("token", res.data.token);
-        dispatch(userActions.setUserData(res.data));
+        localStorage.setItem('token', res.data.token)
+        dispatch(userActions.setUserData(res.data))
       })
       .catch((err) => {
-        alert(err.response.data.message);
-      });
-  };
+        alert(err.response.data.message)
+      })
+  }
 
   useEffect(() => {
-    fetchUserInfo();
-  }, []);
+    fetchUserInfo()
+  }, [])
 
   return (
     <StyledHomePage>
@@ -105,7 +105,7 @@ const HomePage = () => {
         Вийти
       </button>
     </StyledHomePage>
-  );
-};
+  )
+}
 
-export default HomePage;
+export default HomePage

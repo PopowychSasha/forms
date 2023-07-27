@@ -1,16 +1,16 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom'
 import {
   useForm,
   Controller,
   FieldValues,
   SubmitHandler,
-} from "react-hook-form";
-import axios from "axios";
-import styled from "@emotion/styled";
+} from 'react-hook-form'
+import axios from 'axios'
+import styled from '@emotion/styled'
 
-const StyledRegistrationFrom = styled("form", {
-  label: "StyledRegistrationFrom",
-  target: "styled-registration-from",
+const StyledRegistrationFrom = styled('form', {
+  label: 'StyledRegistrationFrom',
+  target: 'styled-registration-from',
 })`
   margin: auto;
   margin-top: 36px;
@@ -62,10 +62,10 @@ const StyledRegistrationFrom = styled("form", {
     font-size: 13.333px;
     font-weight: 400;
   }
-`;
+`
 
 const RegistrationForm = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const {
     control,
     handleSubmit,
@@ -74,27 +74,26 @@ const RegistrationForm = () => {
     reset,
   } = useForm<FieldValues>({
     defaultValues: {
-      name: "",
-      surname: "",
-      email: "",
-      phoneNumber: "",
-      password: "",
-      confirmPassword: "",
+      name: '',
+      surname: '',
+      email: '',
+      phoneNumber: '',
+      password: '',
+      confirmPassword: '',
     },
-  });
+  })
 
   const onSubmit: SubmitHandler<FieldValues> = async (formData) => {
     await axios
-      .post("http://localhost:5000/api/user/registration", formData)
+      .post('http://localhost:5000/api/user/registration', formData)
       .then(() => {
-        reset();
-        navigate("/login");
+        reset()
+        navigate('/login')
       })
       .catch((err) => {
-        alert(err.response.data.message);
-      });
-  };
-
+        alert(err.response.data.message)
+      })
+  }
 
   return (
     <StyledRegistrationFrom onSubmit={handleSubmit(onSubmit)}>
@@ -131,11 +130,11 @@ const RegistrationForm = () => {
             required: "прізвище є обов'язковим",
             minLength: {
               value: 3,
-              message: "мінімальна довжина прізвища повинна бути 3 літери",
+              message: 'мінімальна довжина прізвища повинна бути 3 літери',
             },
             maxLength: {
               value: 20,
-              message: "максимальна довжина прізвища може бути 20 літер",
+              message: 'максимальна довжина прізвища може бути 20 літер',
             },
           }}
           render={({ field }) => (
@@ -157,7 +156,7 @@ const RegistrationForm = () => {
             required: "email є обов'язковим",
             pattern: {
               value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: "неправильний шаблон для email",
+              message: 'неправильний шаблон для email',
             },
           }}
           render={({ field }) => (
@@ -183,7 +182,7 @@ const RegistrationForm = () => {
             required: "номер телефону є обов'язковим",
             pattern: {
               value: /^(\+380|380|\b0)9\d{8}$/,
-              message: "неправильний формат номера телефону",
+              message: 'неправильний формат номера телефону',
             },
           }}
           render={({ field }) => (
@@ -209,7 +208,7 @@ const RegistrationForm = () => {
             required: "пароль є обов'язковим",
             minLength: {
               value: 8,
-              message: "пароль повинен мати мінімум 8 символів",
+              message: 'пароль повинен мати мінімум 8 символів',
             },
           }}
           render={({ field }) => (
@@ -232,10 +231,10 @@ const RegistrationForm = () => {
           name="confirmPassword"
           control={control}
           rules={{
-            required: "Please confirm your password",
+            required: 'Please confirm your password',
             validate: (value) => {
-              if (value !== getValues("password")) {
-                return "Passwords do not match";
+              if (value !== getValues('password')) {
+                return 'Passwords do not match'
               }
             },
           }}
@@ -255,7 +254,7 @@ const RegistrationForm = () => {
       </div>
       <input type="submit" value="Зареєструватися" className="submit-btn" />
     </StyledRegistrationFrom>
-  );
-};
+  )
+}
 
-export default RegistrationForm;
+export default RegistrationForm

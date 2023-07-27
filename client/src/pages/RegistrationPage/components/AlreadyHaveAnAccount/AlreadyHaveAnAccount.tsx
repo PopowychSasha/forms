@@ -1,9 +1,9 @@
-import styled from "@emotion/styled";
-import { NavLink } from "react-router-dom";
+import styled from '@emotion/styled'
+import { NavLink } from 'react-router-dom'
 
-const StyledAlreadyHaveAnAccount = styled("div", {
-  label: "AlreadyHaveAnAccount",
-  target: "already-have-an-account",
+const StyledAlreadyHaveAnAccount = styled('div', {
+  label: 'AlreadyHaveAnAccount',
+  target: 'already-have-an-account',
 })`
   display: flex;
   margin: auto;
@@ -21,9 +21,9 @@ const StyledAlreadyHaveAnAccount = styled("div", {
 
   .link {
     text-decoration: none;
-    color: #C99A00;
+    color: #c99a00;
   }
-`;
+`
 
 const AlreadyHaveAnAccount = () => {
   return (
@@ -33,7 +33,7 @@ const AlreadyHaveAnAccount = () => {
         Вхід
       </NavLink>
     </StyledAlreadyHaveAnAccount>
-  );
-};
+  )
+}
 
-export default AlreadyHaveAnAccount;
+export default AlreadyHaveAnAccount

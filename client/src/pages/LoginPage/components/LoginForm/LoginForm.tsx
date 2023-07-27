@@ -1,14 +1,14 @@
-import { FormEvent, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import styled from "@emotion/styled";
-import { userActions } from "../../../../redux/user";
-import { HOME } from "../../../../components/App/AppPageUrl";
+import { FormEvent, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import styled from '@emotion/styled'
+import { userActions } from '../../../../redux/user'
+import { HOME } from '../../../../components/App/AppPageUrl'
 
-const StyledLoginFrom = styled("form", {
-  label: "StyledRegistrationFrom",
-  target: "styled-registration-from",
+const StyledLoginFrom = styled('form', {
+  label: 'StyledRegistrationFrom',
+  target: 'styled-registration-from',
 })`
   margin: auto;
   margin-top: 36px;
@@ -54,31 +54,31 @@ const StyledLoginFrom = styled("form", {
     font-size: 13.333px;
     font-weight: 400;
   }
-`;
+`
 
 const LoginForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
 
     await axios
-      .post("http://localhost:5000/api/user/login", {
+      .post('http://localhost:5000/api/user/login', {
         email: email,
         password: password,
       })
       .then((res) => {
-        localStorage.setItem("token", res.data.token);
-        dispatch(userActions.setUserData(res.data));
-        navigate(HOME);
+        localStorage.setItem('token', res.data.token)
+        dispatch(userActions.setUserData(res.data))
+        navigate(HOME)
       })
       .catch((err) => {
-        alert(err.response.data.message);
-      });
-  };
+        alert(err.response.data.message)
+      })
+  }
 
   return (
     <StyledLoginFrom onSubmit={onSubmit}>
@@ -103,7 +103,7 @@ const LoginForm = () => {
 
       <input type="submit" value="Увійти" className="submit-btn" />
     </StyledLoginFrom>
-  );
-};
+  )
+}
 
-export default LoginForm;
+export default LoginForm

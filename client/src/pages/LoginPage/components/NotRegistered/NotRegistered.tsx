@@ -1,10 +1,10 @@
-import { NavLink } from "react-router-dom";
-import styled from "@emotion/styled";
-import { REGISTRATION } from "../../../../components/App/AppPageUrl";
+import { NavLink } from 'react-router-dom'
+import styled from '@emotion/styled'
+import { REGISTRATION } from '../../../../components/App/AppPageUrl'
 
-const StyledNotRegistered = styled("div", {
-  label: "StyledNotRegistered",
-  target: "styled-not-registered",
+const StyledNotRegistered = styled('div', {
+  label: 'StyledNotRegistered',
+  target: 'styled-not-registered',
 })`
   display: flex;
   margin: auto;
@@ -24,7 +24,7 @@ const StyledNotRegistered = styled("div", {
     text-decoration: none;
     color: #c99a00;
   }
-`;
+`
 
 const NotRegistered = () => {
   return (
@@ -34,7 +34,7 @@ const NotRegistered = () => {
         Авторизація
       </NavLink>
     </StyledNotRegistered>
-  );
-};
+  )
+}
 
-export default NotRegistered;
+export default NotRegistered

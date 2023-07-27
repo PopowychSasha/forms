@@ -1,10 +1,10 @@
-import styled from "@emotion/styled";
-import RegistrationForm from "./components/RegistrationForm/RegistrationForm";
-import AlreadyHaveAnAccount from "./components/AlreadyHaveAnAccount/AlreadyHaveAnAccount";
+import styled from '@emotion/styled'
+import RegistrationForm from './components/RegistrationForm/RegistrationForm'
+import AlreadyHaveAnAccount from './components/AlreadyHaveAnAccount/AlreadyHaveAnAccount'
 
-const StyledRegistrationPage = styled("div", {
-  label: "StyledRegistrationPage",
-  target: "styled-registration-page",
+const StyledRegistrationPage = styled('div', {
+  label: 'StyledRegistrationPage',
+  target: 'styled-registration-page',
 })`
   padding: 84px 0px 98px;
 
@@ -13,7 +13,7 @@ const StyledRegistrationPage = styled("div", {
     font-family: Manrope;
     font-size: 24px;
   }
-`;
+`
 
 const RegistrationPage = () => {
   return (
@@ -22,7 +22,7 @@ const RegistrationPage = () => {
       <RegistrationForm />
       <AlreadyHaveAnAccount />
     </StyledRegistrationPage>
-  );
-};
+  )
+}
 
-export default RegistrationPage;
+export default RegistrationPage

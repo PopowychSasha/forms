@@ -1,8 +1,8 @@
-import { css } from "@emotion/react";
+import { css } from '@emotion/react'
 
 export const globalStyles = css`
-  @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@700");
-  @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400");
+  @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@700');
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400');
 
   body {
     margin: 0px;
@@ -14,4 +14,4 @@ export const globalStyles = css`
     box-sizing: border-box;
     border: none;
   }
-`;
+`
