@@ -26,6 +26,11 @@ app.use(express.json());
 app.use(cors({ credentials: true }));
 app.use("/api", authRoutes);
 
+app.use((err, req, res, next) => {
+  console.log(err.message);
+  res.status(500).json({ message: err.message });
+});
+
 app.listen(process.env.APP_PORT, () => {
   console.log(`Server is started on PORT ${process.env.APP_PORT}`);
 });

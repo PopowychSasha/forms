@@ -2,9 +2,12 @@ import { useRoutes } from "react-router-dom";
 import RegistrationPage from "../../pages/RegistrationPage/RegistrationPage";
 import LoginPage from "../../pages/LoginPage/LoginPage";
 import HomePage from "../../pages/HomePage/HomePage";
+import { useSelector } from "react-redux";
 
 const App = () => {
-  const isLoggedIn = true;
+  const { token } = useSelector(
+    (store: { userReducer: { token: string } }) => store.userReducer
+  );
 
   const publicRoute = [
     { path: "/registration", element: <RegistrationPage /> },
@@ -15,7 +18,7 @@ const App = () => {
     { path: "/home", element: <HomePage /> },
   ];
 
-  const routes = useRoutes(isLoggedIn ? privateRoute : publicRoute);
+  const routes = useRoutes(token ? privateRoute : publicRoute);
 
   return routes;
 };

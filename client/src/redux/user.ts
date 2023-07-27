@@ -4,16 +4,27 @@ export const userSlice = createSlice({
   name: "files",
   initialState: {
     name: "",
-    surname: "",
     email: "",
+    surname: "",
     phoneNumber: "",
-    isLogIn: false,
+    token: localStorage.getItem("token"),
   },
   reducers: {
-    setUserData: (state, action) => {
-      state = action.payload;
+    setUserData: (_, action) => {
+      console.log(action.payload);
+      return action.payload;
+    },
+    
+    cleanUpUserData: () => {
+      return {
+        name: "",
+        email: "",
+        surname: "",
+        phoneNumber: "",
+        token: "",
+      };
     },
   },
 });
 
-export const userActions = userSlice.actions
+export const userActions = userSlice.actions;

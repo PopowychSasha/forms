@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-// Створення схеми для колекції "users"
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -13,8 +12,6 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true,
-    lowercase: true,
   },
   phoneNumber: {
     type: String,
@@ -30,7 +27,6 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// Створення моделі "User" на основі схеми "userSchema"
 const User = mongoose.model("User", userSchema);
 
 export default User;

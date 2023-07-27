@@ -1,11 +1,12 @@
 import styled from "@emotion/styled";
-import { useEffect } from "react";
 import {
   useForm,
   Controller,
   FieldValues,
   SubmitHandler,
 } from "react-hook-form";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const StyledRegistrationFrom = styled("form", {
   label: "StyledRegistrationFrom",
@@ -64,34 +65,38 @@ const StyledRegistrationFrom = styled("form", {
 `;
 
 const RegistrationForm = () => {
+  const navigate = useNavigate();
   const {
     control,
     handleSubmit,
     formState: { errors },
     getValues,
-  } = useForm<FieldValues>();
+    reset,
+  } = useForm<FieldValues>({
+    defaultValues: {
+      name: "",
+      surname: "",
+      email: "",
+      phoneNumber: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FieldValues> = async (formData) => {
+    await axios
+      .post("http://localhost:5000/api/user/registration", formData)
+      .then(() => {
+        reset();
+        navigate("/login");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const password = getValues("password");
-  /* const onSubmit = async () => {
-    await axios
-      .post("http://localhost:5000/api/user/registration", {
-        name: "Petr",
-        surname: "Popovych",
-        email: "sashapopovych1@gmail.com",
-        phoneNumber: "+380969943318",
-        password: "11111",
-        confirmPassword: "11111",
-      })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-  }; */
-  useEffect(() => {
-    /* onSubmit(); */
-  }, []);
+
   return (
     <StyledRegistrationFrom onSubmit={handleSubmit(onSubmit)}>
       <div className="input-wrapper">
@@ -100,10 +105,14 @@ const RegistrationForm = () => {
           name="name"
           control={control}
           rules={{
-            required: "Name is required",
+            required: "ім'я є обов'язковим",
+            minLength: {
+              value: 3,
+              message: "мінімальна довжина ім'я повинна бути 3 літери",
+            },
             maxLength: {
-              value: 50,
-              message: "Name should not exceed 50 characters",
+              value: 20,
+              message: "максимальна довжина ім'я може бути 20 літер",
             },
           }}
           render={({ field }) => (
@@ -113,7 +122,6 @@ const RegistrationForm = () => {
         {errors.name && (
           <span className="error-message">{errors.name.message as string}</span>
         )}
-        {/* <input className="input-field" placeholder="Ім'я" /> */}
       </div>
       <div className="input-wrapper">
         <span className="input-title">Прізвище</span>
@@ -121,10 +129,14 @@ const RegistrationForm = () => {
           name="surname"
           control={control}
           rules={{
-            required: "Surname is required",
+            required: "прізвище є обов'язковим",
+            minLength: {
+              value: 3,
+              message: "мінімальна довжина прізвища повинна бути 3 літери",
+            },
             maxLength: {
-              value: 50,
-              message: "Surname should not exceed 50 characters",
+              value: 20,
+              message: "максимальна довжина прізвища може бути 20 літер",
             },
           }}
           render={({ field }) => (
@@ -143,10 +155,10 @@ const RegistrationForm = () => {
           name="email"
           control={control}
           rules={{
-            required: "Email is required",
+            required: "email є обов'язковим",
             pattern: {
               value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: "Invalid email address",
+              message: "неправильний шаблон для email",
             },
           }}
           render={({ field }) => (
@@ -169,10 +181,10 @@ const RegistrationForm = () => {
           name="phoneNumber"
           control={control}
           rules={{
-            required: "Phone number is required",
+            required: "номер телефону є обов'язковим",
             pattern: {
-              value: /^\+[0-9]{1,3}-?[0-9]{6,14}$/,
-              message: "Invalid phone number format",
+              value: /^(\+380|380|\b0)9\d{8}$/,
+              message: "неправильний формат номера телефону",
             },
           }}
           render={({ field }) => (
@@ -195,10 +207,10 @@ const RegistrationForm = () => {
           name="password"
           control={control}
           rules={{
-            required: "Password is required",
+            required: "пароль є обов'язковим",
             minLength: {
               value: 8,
-              message: "Password must be at least 8 characters long",
+              message: "пароль повинен мати мінімум 8 символів",
             },
           }}
           render={({ field }) => (
@@ -209,7 +221,11 @@ const RegistrationForm = () => {
             />
           )}
         />
-        {errors.password && <span className="error-message">{errors.password.message as string}</span>}
+        {errors.password && (
+          <span className="error-message">
+            {errors.password.message as string}
+          </span>
+        )}
       </div>
       <div className="input-wrapper">
         <span className="input-title">Підтвердження паролю</span>
@@ -218,7 +234,11 @@ const RegistrationForm = () => {
           control={control}
           rules={{
             required: "Please confirm your password",
-            validate: (value) => value === password || "Passwords do not match",
+            validate: (value) => {
+              if (value !== password) {
+                return "Passwords do not match";
+              }
+            },
           }}
           render={({ field }) => (
             <input
@@ -229,7 +249,9 @@ const RegistrationForm = () => {
           )}
         />
         {errors.confirmPassword && (
-          <span className="error-message">{errors.confirmPassword.message as string}</span>
+          <span className="error-message">
+            {errors.confirmPassword.message as string}
+          </span>
         )}
       </div>
       <input type="submit" value="Зареєструватися" className="submit-btn" />

@@ -1,4 +1,9 @@
 import styled from "@emotion/styled";
+import { FormEvent, useState } from "react";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { userActions } from "../../../../redux/user";
+import { useNavigate } from "react-router-dom";
 
 const StyledLoginFrom = styled("form", {
   label: "StyledRegistrationFrom",
@@ -51,15 +56,50 @@ const StyledLoginFrom = styled("form", {
 `;
 
 const LoginForm = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    await axios
+      .post("http://localhost:5000/api/user/login", {
+        email: email,
+        password: password,
+      })
+      .then((res) => {
+        localStorage.setItem("token", res.data.token);
+        dispatch(userActions.setUserData(res.data));
+        navigate('/home')
+      })
+      .catch((err) => {
+        console.log("YES2");
+        console.log(err);
+      });
+    console.log("YES3");
+  };
+
   return (
-    <StyledLoginFrom>
+    <StyledLoginFrom onSubmit={onSubmit}>
       <div className="input-wrapper">
         <span className="input-title">E-mail</span>
-        <input className="input-field" placeholder="email@example.com" />
+        <input
+          onChange={(e) => setEmail(e.target.value)}
+          className="input-field"
+          placeholder="email@example.com"
+          value={email}
+        />
       </div>
       <div className="input-wrapper">
         <span className="input-title">Пароль</span>
-        <input className="input-field" placeholder="Пароль" />
+        <input
+          onChange={(e) => setPassword(e.target.value)}
+          className="input-field"
+          placeholder="Пароль"
+          value={password}
+        />
       </div>
 
       <input type="submit" value="Увійти" className="submit-btn" />
