@@ -1,8 +1,8 @@
 import { useRoutes } from "react-router-dom";
+import { useSelector } from "react-redux";
 import RegistrationPage from "../../pages/RegistrationPage/RegistrationPage";
 import LoginPage from "../../pages/LoginPage/LoginPage";
 import HomePage from "../../pages/HomePage/HomePage";
-import { useSelector } from "react-redux";
 
 const App = () => {
   const { token } = useSelector(
@@ -13,6 +13,7 @@ const App = () => {
     { path: "/registration", element: <RegistrationPage /> },
     { path: "/login", element: <LoginPage /> },
   ];
+
   const privateRoute = [
     ...publicRoute,
     { path: "/home", element: <HomePage /> },

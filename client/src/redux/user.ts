@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const userSlice = createSlice({
   name: "files",
   initialState: {
+    id: "",
     name: "",
     email: "",
     surname: "",
@@ -11,12 +12,12 @@ export const userSlice = createSlice({
   },
   reducers: {
     setUserData: (_, action) => {
-      console.log(action.payload);
       return action.payload;
     },
-    
+
     cleanUpUserData: () => {
       return {
+        id: "",
         name: "",
         email: "",
         surname: "",

@@ -5,6 +5,15 @@ export const registration = async (req, res, next) => {
   const { name, surname, email, phoneNumber, password, confirmPassword } =
     req.body;
 
+  try {
+    let user = await User.findOne({ email });
+    if (user) throw new Error("користувач з цим email вже зареєстрований");
+
+    user = await User.findOne({ phoneNumber });
+    if (user) throw new Error("користувач з цим телефоном вже зареєстрований");
+  } catch (err) {
+    return next(err);
+  }
   const newUser = new User({
     name,
     surname,
@@ -14,24 +23,53 @@ export const registration = async (req, res, next) => {
   });
 
   await newUser.save();
-  res.json(req.body);
+  res.status(201).json({});
 };
 
 export const login = async (req, res, next) => {
   const { email, password } = req.body;
-  console.log(email)
-  const user = await User.findOne({ email, password });
-  console.log(user)
-  if (!user) {
-    return res.json({ message: "логін або пароль неправильний" });
+  let user = undefined;
+  try {
+    user = await User.findOne({ email, password });
+
+    if (!user) {
+      throw new Error("логін або пароль неправильний");
+    }
+  } catch (err) {
+    return next(err);
   }
+
   return res.json({
+    id: user._id,
     name: user.name,
     surname: user.surname,
     email: user.email,
     phoneNumber: user.phoneNumber,
     token: jwt.sign(
       {
+        id: user._id,
+        name: user.name,
+        surname: user.surname,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+      },
+      "Secret"
+    ),
+  });
+};
+
+export const getUserInfo = async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+
+  return res.json({
+    id: user._id,
+    name: user.name,
+    surname: user.surname,
+    email: user.email,
+    phoneNumber: user.phoneNumber,
+    token: jwt.sign(
+      {
+        id: user._id,
         name: user.name,
         surname: user.surname,
         email: user.email,

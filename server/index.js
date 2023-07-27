@@ -3,6 +3,7 @@ import authRoutes from "./route/auth.js";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
+import { passport } from "./authentication/passport.js";
 
 dotenv.config();
 
@@ -24,10 +25,11 @@ db.once("open", () => {
 
 app.use(express.json());
 app.use(cors({ credentials: true }));
+app.use(passport.initialize());
+
 app.use("/api", authRoutes);
 
 app.use((err, req, res, next) => {
-  console.log(err.message);
   res.status(500).json({ message: err.message });
 });
 

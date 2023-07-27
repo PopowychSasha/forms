@@ -1,9 +1,9 @@
-import styled from "@emotion/styled";
 import { FormEvent, useState } from "react";
-import axios from "axios";
 import { useDispatch } from "react-redux";
-import { userActions } from "../../../../redux/user";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import styled from "@emotion/styled";
+import { userActions } from "../../../../redux/user";
 
 const StyledLoginFrom = styled("form", {
   label: "StyledRegistrationFrom",
@@ -72,13 +72,11 @@ const LoginForm = () => {
       .then((res) => {
         localStorage.setItem("token", res.data.token);
         dispatch(userActions.setUserData(res.data));
-        navigate('/home')
+        navigate("/home");
       })
       .catch((err) => {
-        console.log("YES2");
-        console.log(err);
+        alert(err.response.data.message);
       });
-    console.log("YES3");
   };
 
   return (

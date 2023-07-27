@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+import { useNavigate } from "react-router-dom";
 import {
   useForm,
   Controller,
@@ -6,7 +6,7 @@ import {
   SubmitHandler,
 } from "react-hook-form";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
 
 const StyledRegistrationFrom = styled("form", {
   label: "StyledRegistrationFrom",
@@ -91,7 +91,7 @@ const RegistrationForm = () => {
         navigate("/login");
       })
       .catch((err) => {
-        console.log(err);
+        alert(err.response.data.message);
       });
   };
 

@@ -1,6 +1,8 @@
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import styled from "@emotion/styled";
 import { userActions } from "../../redux/user";
 
 const StyledHomePage = styled("div", {
@@ -50,13 +52,14 @@ const StyledHomePage = styled("div", {
 const HomePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { name, surname, email, phoneNumber } = useSelector(
+  const { name, surname, email, phoneNumber, token } = useSelector(
     (store: {
       userReducer: {
         name: string;
         surname: string;
         email: string;
         phoneNumber: string;
+        token: string;
       };
     }) => store.userReducer
   );
@@ -67,6 +70,26 @@ const HomePage = () => {
     navigate("/login");
   };
 
+  const fetchUserInfo = async () => {
+    await axios
+      .get("http://localhost:5000/api/user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        localStorage.setItem("token", res.data.token);
+        dispatch(userActions.setUserData(res.data));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
+  
   return (
     <StyledHomePage>
       <div className="title">Інформація про користвувача</div>
